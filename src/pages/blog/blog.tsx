@@ -75,29 +75,35 @@ const Home: React.FC = () => {
           </ul>
         </div>
       <div>
-      {posts.map((post) => (
-        <div key={post.id} className="post-container">
-          <div className="post-container-child">
-            <div className='img-des'>
-              <div className='icon-title'>
-                <img src={post.iconUrl} className='icon-image'/>
-                <div className='title-des'>
-                  <h3 className="post-title">{post.title}</h3>
+        <h1 className='menu-title'>メニュー</h1>
+        <div className="posts-wrapper">
+          {posts.map((post) => (
+            <div key={post.id} className="post-container">
+              <div className="post-container-child">
+                <div className="user">
+                  <div className="icon-title">
+                    <img src={post.iconUrl} className="icon-image" />
+                    <div className="title-des">
+                      <h3 className="post-title">{post.title}</h3>
+                    </div>
+                    <div className='post-date'>{post.date}</div>
+                  </div>
+                  <p className="post-description">{post.description}</p>
+                </div>
+                <div className='img-des'>
+                  <img src={post.imageUrl} alt={post.title} className="post-image" />
                   <p className="post-teamdescription">{post.teamdescription}</p>
                 </div>
               </div>
-              <p className='post-description'>{post.description}</p>
+            <div className="post-interactions">
+              <span>☆{post.likes}</span>
+              <span>♡{post.likes}</span>
+              <span>💬{post.comments}</span>
             </div>
-            <img src={post.imageUrl} alt={post.title} className="post-image" />
           </div>
-          <div className="post-interactions">
-            <span>☆{post.likes}</span>
-            <span>♡{post.likes}</span>
-            <span>💬{post.comments}</span>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
     </div>
     </MainLayout>)
 }

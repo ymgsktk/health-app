@@ -1,25 +1,38 @@
-/*body {
-    margin: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-  }*/
-
+/*メインコンテンツのcss*/
+.menu-title{
+  text-align: center;
+  margin-bottom: 20px;
+}
+  .posts-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Enable wrapping of posts to new lines if needed */
+    gap: 20px; /* Optional: Add space between posts */
+  }
   .post-container {
-    margin-right: 30px;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin-right: 0px;
     margin-left: 30px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 16px;
-    padding-bottom: 16px;
+    padding: 0 16px 16px 16px;
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0 8px 8px rgba(118, 118, 118, 0.2); /* 影の設定 */
+    border-radius: 10px;
   }
 
-  .post-container-child{
-    display: flex;
-    align-items: flex-start;
+
+
+  .user{
+    flex: 1; 
+    margin-right: 16px; 
+    margin-left: 16px;
   }
 
   .img-des{
-    flex: 1; 
-    margin-right: 16px; 
+    display: flex;
+    flex-direction: row;
+    background-color: white;
   }
 
   .icon-title{
@@ -42,16 +55,23 @@
   .post-title {
     font-size: 1.5em;
   }
+
+  .post-date{
+    margin-top: 30px;
+    color: #7b7b7b;
+  }
   
   .post-teamdescription {
     flex: 1; 
     margin-right: 16px; 
+    margin-left: 16px;
     color: gray;
   }
   
   .post-image {
+    margin: 10px 10px 10px 10px;
     align-items: center;
-    width: 300px;
+    max-width: 40%;
     height: auto;
     flex-shrink: 0;
   }

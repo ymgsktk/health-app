@@ -7,5 +7,6 @@ export interface Post {
     iconUrl: string;
     likes: number;
     comments: number;
+    date: string;
   }
   
