@@ -19,3 +19,8 @@ export const postsReducer = (state = initialState, action: Action): PostsState =
       return state;
   }
 };
+
+export const toggleMenu = (menu: string) => ({
+  type: 'TOGGLE_MENU',
+  payload: menu,
+});
