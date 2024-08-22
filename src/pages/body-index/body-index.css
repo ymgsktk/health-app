@@ -1,0 +1,149 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.BMI-title{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+input{
+    margin-top: 0px;
+    background-color: hsl(0, 0%, 85%);
+    padding: 10px 10px 10px 10px;
+}
+
+input:focus {
+    outline: none; 
+    border-color: #007bff; 
+}
+
+.main-content {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+.input-fields{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.height-con{
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px ;
+}
+
+.weight-con{
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px ;
+}
+
+.cal-button {
+    padding: 8px 16px; 
+    margin-top: 23px; 
+    margin-bottom: 0px;
+    margin-right: 20px;
+    background-color: #4382c5; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    font-size: 16px; 
+    box-shadow: 6px 5px 6px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .cal-button:hover {
+    background-color: #36689d; /* ホバー時の色を変更 */
+  }
+
+  .bmi-result-box {
+    width: 250px;
+    height: 50px;
+    margin-top: 15px;
+    margin-left: 50px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .BMI{
+    margin-top: 10px;
+  }
+
+  .error-message{
+    margin-top: -5px;
+    margin-left: 28%;
+    color: red;
+  }
+
+/*以下はおすすめメニューに関するcss*/
+
+.recommend-title{
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+    font-size: 25px;
+}
+
+.recommend-menus{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    position: relative;
+    border: 2px solid #9d9d9d; 
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 80%;
+    max-height: 200px;
+    overflow: auto;
+    box-shadow: 0 8px 8px rgba(118, 118, 118, 0.2); 
+}
+
+.recommend-img {
+    margin: 10px 10px 10px 10px;
+    max-width: 300px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.des {
+    text-align: left;
+    font-size: 20px;
+    color: #252525;
+}
+
+.menu-des{
+    color: #c3c3c3;
+}
+
+.detail-button{
+    padding: 10px;
+    background-color: #f56666; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    font-size: 17px; 
+    box-shadow: 6px 5px 6px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease;
+}

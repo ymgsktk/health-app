@@ -6,7 +6,7 @@ import Adapter from 'axios-mock-adapter'
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL, USER_INFO_DUM, userInfoDefault } from "../../utils/constant";
 import './login.css';
-import { login } from '../../API/apidata';
+import { login } from '../../API/apidata-post';
 
 const mock = new Adapter(axios);
 

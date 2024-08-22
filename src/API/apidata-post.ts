@@ -84,3 +84,72 @@ export const fetchPosts = async () => {
     throw new Error('Failed to fetch posts');
   }
 };
+
+const menus = [
+  {
+    id: 1,
+    title: "hamburger steak",
+    description: "juicy steak",
+    imageUrl: "https://vietnam-sketch.com/wp-content/uploads/2023/02/thumbnail-90948.png",
+    calorie: 350,
+    protein: 26,
+  },
+  {
+    id: 2,
+    title: "Salad",
+    description: "fresh salad",
+    imageUrl: "https://www.m-portugal.jp/global-image/units/img/6880-1-20160203153512_b56b19fa0389ee.jpg",
+    calorie: 50,
+    protein: 16,
+  },
+  {
+    id: 3,
+    title: "Chicken Breast",
+    description: "high protein",
+    imageUrl: "https://vietmaru.com/wp-content/uploads/2020/01/DSC00793.jpg",
+    calorie: 200,
+    protein: 31,
+  },
+  {
+    id: 4,
+    title: "Pasta",
+    description: "yummy pasta",
+    imageUrl: "https://s3-ap-northeast-1.amazonaws.com/concerto-prod/images/209/thumb_480.jpg?1615084506",
+    calorie: 150,
+    protein: 8,
+  },
+  {
+    id: 5,
+    title: "Spring roll",
+    description: "healthy cuisine",
+    imageUrl: "https://www.meiji.co.jp/meiji-shokuiku/worldculture/images/recipe/pic_vietnam2.jpg",
+    calorie: 50,
+    protein: 16,
+  },
+]
+
+export const fetchrecommend = async (bmi: number) => {
+  try {
+    const response = await api.post('/recommend', { bmi });
+    return response.data;
+    } catch (error) {
+      throw new Error('Menu cannot find');
+    }
+};
+
+mock.onPost('/recommend').reply((config) => {
+  try {
+  const { bmi } = JSON.parse(config.data);
+  let filteredMenus = [];
+  if (bmi < 18.5) {
+    filteredMenus = menus.filter(menu => menu.calorie >= 300);
+  } else if (bmi >= 18.5 && bmi < 25) {
+    filteredMenus =  menus.filter(menu => menu.calorie >= 200 && menu.calorie < 300);
+  } else {
+    filteredMenus =  menus.filter(menu => menu.calorie < 200 && menu.protein >= 15);
+  }
+  return [200, filteredMenus];
+  }catch (error) {
+    throw new Error('Cannot find recommend menus');
+  }
+});

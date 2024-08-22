@@ -6,7 +6,7 @@
   .posts-wrapper {
     display: flex;
     flex-wrap: wrap; /* Enable wrapping of posts to new lines if needed */
-    gap: 20px; /* Optional: Add space between posts */
+    gap: 0px; 
   }
   .post-container{
     max-width: 500px;
@@ -173,5 +173,5 @@
 /* メインコンテンツ */
 .main-content {
   flex: 1; /* 残りの幅を占める */
-  padding: 20px; /* パディングを設定 */
+  padding: 0px; /* パディングを設定 */
 }

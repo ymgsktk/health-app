@@ -10,3 +10,11 @@ export interface Post {
     date: string;
   }
   
+export interface Menu {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  calorie: number;
+  protein: number;
+}

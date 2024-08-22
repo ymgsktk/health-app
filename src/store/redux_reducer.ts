@@ -2,6 +2,7 @@ import {initialUserState, UserState} from './redux_action';
 import {initialPostState, PostsState} from './redux_action';
 import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
+import { initialBMIState, BMIState } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -45,3 +46,19 @@ export const modalReducer = (state = initialModalState, action: Action): ModalSt
       return state;
   }
 };
+
+export const bmiReducer = (state = initialBMIState, action: Action): BMIState => {
+  switch (action.type) {
+    case 'SET_HEIGHT':
+      return { ...state, height: action.payload };
+    case 'SET_WEIGHT':
+      return { ...state, weight: action.payload };
+    case 'CALCULATE_BMI':
+      const heightInMeters = state.height / 100;
+      const bmi = state.weight / (heightInMeters * heightInMeters);
+      return { ...state, bmi, bmicalculated: true };
+    default:
+      return state;
+  }
+};
+

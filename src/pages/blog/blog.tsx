@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPosts } from '../../API/apidata'; 
+import { fetchPosts } from '../../API/apidata-post'; 
 import { useDispatch, useSelector } from 'react-redux';
 import './blog.css';
 import MainLayout from "../mainlayout";
