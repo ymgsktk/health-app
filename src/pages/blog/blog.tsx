@@ -5,7 +5,9 @@ import './blog.css';
 import MainLayout from "../mainlayout";
 import { AppState } from '../../store/redux_store';
 import { Post } from '../../interface/post';
-import { toggleMenu } from '../../store/redux_postReducer';
+import { toggleMenu } from '../../store/redux_action';
+import { toggleModal } from '../../store/redux_action';
+import ModalComponent from './modal';
 
 const handleToggle = (menu: string, dispatch: any) => {
   dispatch(toggleMenu(menu));
@@ -16,6 +18,8 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state: AppState) => state.posts.posts);
   const menuState = useSelector((state: AppState) => state.menu);
+  const [selectedPost, setSelectedPost] = React.useState<Post | null>(null);
+
 
 
   useEffect(() => {
@@ -31,6 +35,11 @@ const Home: React.FC = () => {
 
     getPosts();
   }, [dispatch]);
+
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post);
+    dispatch(toggleModal(true));
+  };
   
   return (
     <MainLayout>
@@ -78,7 +87,7 @@ const Home: React.FC = () => {
         <h1 className='menu-title'>メニュー</h1>
         <div className="posts-wrapper">
           {posts.map((post) => (
-            <div key={post.id} className="post-container">
+            <div key={post.id} className="post-container" onClick={() => handlePostClick(post)}>
               <div className="post-container-child">
                 <div className="user">
                   <div className="icon-title">
@@ -86,7 +95,8 @@ const Home: React.FC = () => {
                     <div className="title-des">
                       <h3 className="post-title">{post.title}</h3>
                     </div>
-                    <div className='post-date'>{post.date}</div>
+                    <div className='post-date'>{post.date}
+                    </div>
                   </div>
                   <p className="post-description">{post.description}</p>
                 </div>
@@ -95,15 +105,16 @@ const Home: React.FC = () => {
                   <p className="post-teamdescription">{post.teamdescription}</p>
                 </div>
               </div>
-            <div className="post-interactions">
-              <span>☆{post.likes}</span>
-              <span>♡{post.likes}</span>
-              <span>💬{post.comments}</span>
+              <div className="post-interactions">
+                <span>☆{post.likes}</span>
+                <span>♡{post.likes}</span>
+                <span>💬{post.comments}</span>
+              </div>
             </div>
-          </div>
           ))}
         </div>
       </div>
+      <ModalComponent post={selectedPost} />
     </div>
     </MainLayout>)
 }

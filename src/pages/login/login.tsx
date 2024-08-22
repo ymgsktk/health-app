@@ -22,7 +22,7 @@ const Login: React.FC = () => {
       if(response && response.token){
         alert(response.message);
         localStorage.setItem('token', response.token);
-        navigate('/');
+        navigate('/blog');
       }else{
         alert(response.messageErr)
       }

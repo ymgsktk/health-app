@@ -8,20 +8,25 @@
     flex-wrap: wrap; /* Enable wrapping of posts to new lines if needed */
     gap: 20px; /* Optional: Add space between posts */
   }
-  .post-container {
+  .post-container{
     max-width: 500px;
     box-sizing: border-box;
     margin-right: 0px;
-    margin-left: 30px;
+    margin-left: 40px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 16px;
     padding: 0 16px 16px 16px;
-    background-color: rgb(240, 240, 240);
-    box-shadow: 0 8px 8px rgba(118, 118, 118, 0.2); /* 影の設定 */
+    background-color: rgb(237, 237, 237);
+    box-shadow: 0 8px 8px rgba(118, 118, 118, 0.2); 
     border-radius: 10px;
+    transition: background-color 0s ease;
   }
-
-
+  .post-container:hover{
+    background-color: rgb(220, 220, 220);
+  }
+  .post-container:hover .img-des {
+    background-color: rgb(238, 238, 238); /* 任意の色に変更 */
+  }
 
   .user{
     flex: 1; 
@@ -32,7 +37,7 @@
   .img-des{
     display: flex;
     flex-direction: row;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
   }
 
   .icon-title{
@@ -105,6 +110,7 @@
 }
 .slide-menu{
   margin-left: 50px;
+  margin-right: 50px;
 }
 
 .side-menu ul{
