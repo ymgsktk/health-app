@@ -1,0 +1,99 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    width: 1000px;
+    height: auto;
+  }
+
+  .modal-border{
+    border: 2px solid #cfcfcf; 
+    border-radius: 10px;
+  }
+
+  .title{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+  
+  .close {
+    position: absolute; 
+    top: -30px;
+    right: 40px; 
+    font-size: 50px; 
+    cursor: pointer; 
+    color: #000000; 
+    background: none; 
+    border: none; 
+    z-index: 9999;
+  }
+  
+  .des{
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+
+  .menu-image {
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 40%;
+    height:auto;
+    max-width: 40%;  
+    max-height:100%;
+    object-fit: contain;
+}
+
+.img-controle{
+    display: flex;
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; 
+    position: relative;
+    height:300px;
+    border-bottom: 2px solid #cfcfcf; 
+    border-radius: 10px;
+    overflow: auto;
+    background-color: #ededed;
+}
+
+/*以下から表のCSS*/
+
+.food-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .food-table th, .food-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .food-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .food-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .food-table tr:hover {
+    background-color: #f1f1f1;
+  }

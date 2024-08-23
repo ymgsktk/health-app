@@ -5,6 +5,8 @@ import { AppState } from '../../store/redux_store';
 import MainLayout from '../mainlayout';
 import { fetchrecommend } from '../../API/apidata-post';
 import { Menu } from '../../interface/post';
+import { toggleModal } from '../../store/redux_action';
+import ModalComponent from './modal';
 import './body-index.css'
 
 const BodyIndex: React.FC = () => {
@@ -12,14 +14,39 @@ const BodyIndex: React.FC = () => {
   const { height, weight, bmi, bmicalculated } = useSelector((state: AppState) => state.bmi);
   const [error, setError] = useState<string | null>(null);
   const [recommendMenus, setRecommendMenus] = React.useState<Menu[]>([]);
+  const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
+
+  useEffect(() => {
+    const savedHeight = localStorage.getItem('height');
+    const savedWeight = localStorage.getItem('weight');
+    const savedBMI = localStorage.getItem('bmi');
+    const savedMenus = localStorage.getItem('recommendMenus');
+
+    if (savedHeight) {
+      dispatch({ type: 'SET_HEIGHT', payload: Number(savedHeight) });
+    }
+    if (savedWeight) {
+      dispatch({ type: 'SET_WEIGHT', payload: Number(savedWeight) });
+    }
+    if (savedBMI) {
+      dispatch({ type: 'SET_BMI', payload: Number(savedBMI) });
+    }
+    if (savedMenus) {
+      setRecommendMenus(JSON.parse(savedMenus));
+    }
+  }, [dispatch]);
 
   const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'SET_HEIGHT', payload: Number(e.target.value) });
+    const newHeight = Number(e.target.value);
+    dispatch({ type: 'SET_HEIGHT', payload: newHeight });
+    localStorage.setItem('height', newHeight.toString());
     setError(null); 
   };
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'SET_WEIGHT', payload: Number(e.target.value) });
+    const newWeight = Number(e.target.value);
+    dispatch({ type: 'SET_WEIGHT', payload: newWeight });
+    localStorage.setItem('weight', newWeight.toString());
     setError(null); 
   };
 
@@ -29,12 +56,16 @@ const BodyIndex: React.FC = () => {
       return;
     }
     dispatch({ type: 'CALCULATE_BMI' });
+    if (bmi !== null) {
+        localStorage.setItem('bmi', bmi.toString());
+      }
   };
   useEffect(() => {
     const fetchData = async () => {
       if (bmi !== null) {
         try {
           const menus = await fetchrecommend(bmi);
+          localStorage.setItem('recommendMenus', JSON.stringify(menus));
           setRecommendMenus(menus);
         } catch (error) {
           console.error(error);
@@ -44,6 +75,11 @@ const BodyIndex: React.FC = () => {
 
     fetchData();
   }, [bmi]); 
+
+  const handlePostClick = (menu: Menu) => {
+    setSelectedMenu(menu)
+    dispatch(toggleModal(true));
+  };
 
 
   return (
@@ -85,12 +121,13 @@ const BodyIndex: React.FC = () => {
                 <div className='des'>
                     <h2>{menu.title}</h2>
                     <p className='menu-des'>{menu.description}</p>
-                    <button className='detail-button'>詳細</button>
+                    <button className='detail-button' onClick={() => handlePostClick(menu)}>詳細</button>
                 </div>
               </div>
             ))}
           </div>
         )}
+        <ModalComponent menu={selectedMenu} />
     </div>
     </MainLayout>
   );

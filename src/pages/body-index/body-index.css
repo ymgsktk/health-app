@@ -1,3 +1,14 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -116,6 +127,9 @@ input:focus {
     max-height: 200px;
     overflow: auto;
     box-shadow: 0 8px 8px rgba(118, 118, 118, 0.2); 
+    overflow: hidden;
+    opacity: 0; 
+    animation: fadeIn 1s ease forwards;
 }
 
 .recommend-img {
@@ -147,3 +161,7 @@ input:focus {
     box-shadow: 6px 5px 6px rgba(0, 0, 0, 0.1); 
     transition: box-shadow 0.3s ease;
 }
+
+.detail-button:hover {
+    background-color: #fa3939;  /* ホバー時の色を変更 */
+  }

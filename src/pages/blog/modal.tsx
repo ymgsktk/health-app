@@ -6,7 +6,7 @@ import './modal.css'
 import { Post } from '../../interface/post';
 
 interface ModalComponentProps {
-  post: Post | null; // postが存在しない場合もあるのでnull許可
+  post: Post | null; 
 }
 
 const ModalComponent: React.FC<ModalComponentProps> = ({ post }) => {
@@ -17,10 +17,9 @@ const ModalComponent: React.FC<ModalComponentProps> = ({ post }) => {
   console.log('Modal content:', content);
 
   const handleCloseModal = () => {
-    dispatch(toggleModal(false)); // モーダルを閉じる
+    dispatch(toggleModal(false)); 
   };
   const handleContentClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // イベントの伝播を止めて、モーダルが閉じるのを防ぐ
     event.stopPropagation();
   };
 
