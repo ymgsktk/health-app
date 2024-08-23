@@ -3,6 +3,7 @@ import {initialPostState, PostsState} from './redux_action';
 import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
 import { initialBMIState, BMIState } from './redux_action';
+import { initialBMRState, BMRState } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -62,3 +63,65 @@ export const bmiReducer = (state = initialBMIState, action: Action): BMIState =>
   }
 };
 
+export const bmrReducer = (state = initialBMRState, action: Action): BMRState => {
+  switch (action.type) {
+    case 'SET_HEIGHT-BMR':
+      return { ...state, height: action.payload };
+    case 'SET_WEIGHT-BMR':
+      return { ...state, weight: action.payload };
+    case 'SET_AGE-BMR':
+      return { ...state, age: action.payload};
+    case 'SET_GENDER-BMR':
+      return { ...state, gender: action.payload};
+    case 'SET_LEVEL-BMR':
+      return { ...state, level: action.payload }
+    case 'CALCULATE_BMR':
+      const { height, weight, age, gender, level } = state;
+        console.log(height, weight, age, gender)
+        let bmr = null;
+        let bmrcalculated = false;
+        
+        if (gender === 'male') {
+          bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+          bmrcalculated = true;
+        } else if (gender === 'female') {
+          bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+          bmrcalculated = true;
+        }
+        console.log(bmr)
+        if(bmr !== null){
+          switch(level){
+            case "level1":
+              bmr = bmr * 1.2;
+              break;
+            case "level2":
+              bmr = bmr * 1.4;
+              break;
+            case "level3":
+              bmr = bmr * 1.6;
+              break;
+            case "level4":
+              bmr = bmr * 1.8;
+              break;
+            case "level5":
+              bmr = bmr * 1.9;
+              break;
+            default:
+              break;
+          }
+        }else{
+          console.log('bmr is null')
+        }
+        return {
+          ...state,
+          bmr,
+          bmrcalculated: true,
+        };
+
+    case 'RESET_BMR':
+      return initialBMRState;
+
+    default:
+      return state;
+  }
+};

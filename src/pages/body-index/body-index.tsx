@@ -11,8 +11,8 @@ import './body-index.css'
 
 const BodyIndex: React.FC = () => {
   const dispatch = useDispatch();
-  const { height, weight, bmi, bmicalculated } = useSelector((state: AppState) => state.bmi);
   const [error, setError] = useState<string | null>(null);
+  const { height, weight, bmi, bmicalculated } = useSelector((state: AppState) => state.bmi);
   const [recommendMenus, setRecommendMenus] = React.useState<Menu[]>([]);
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
 
@@ -29,7 +29,7 @@ const BodyIndex: React.FC = () => {
       dispatch({ type: 'SET_WEIGHT', payload: Number(savedWeight) });
     }
     if (savedBMI) {
-      dispatch({ type: 'SET_BMI', payload: Number(savedBMI) });
+      dispatch({ type: 'CALCULATE_BMI', payload: Number(savedBMI) });
     }
     if (savedMenus) {
       setRecommendMenus(JSON.parse(savedMenus));

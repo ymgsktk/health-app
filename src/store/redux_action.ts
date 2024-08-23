@@ -28,6 +28,16 @@ export interface BMIState {
   bmicalculated: boolean;
 }
 
+export interface BMRState{
+  height: number;
+  weight: number;
+  age: number;
+  gender: string | null;
+  level: string | null;
+  bmr: number | null;
+  bmrcalculated: boolean;
+}
+
 //初期状態
 export const initialPostState: PostsState = {
   posts: [],
@@ -56,6 +66,16 @@ export const initialBMIState: BMIState = {
   bmicalculated: false,
 };
 
+export  const initialBMRState: BMRState = {
+  height: 0,
+  weight: 0,
+  age: 0,
+  gender: "male",
+  level: "level1",
+  bmr: null,
+  bmrcalculated: false,
+}
+
 //アクション
 export type Action =
   | { type: 'SET_USER_INFO'; payload: { email: string; password: string } }
@@ -65,7 +85,15 @@ export type Action =
   | { type: 'TOGGLE_MODAL'; payload: boolean }
   | { type: 'SET_HEIGHT'; payload: number }
   | { type: 'SET_WEIGHT'; payload: number }
-  | { type: 'CALCULATE_BMI'; payload:boolean };
+  | { type: 'SET_HEIGHT-BMR'; payload: number }
+  | { type: 'SET_WEIGHT-BMR'; payload: number }
+  | { type: 'SET_AGE-BMR'; payload: number }
+  | { type: 'SET_LEVEL-BMR'; payload: string }
+  | { type: 'SET_GENDER-BMR'; payload: string }
+  | { type: 'CALCULATE_BMI'; payload:boolean }
+  | { type: 'CALCULATE_BMR'; payload:boolean }
+  | { type: 'RESET_BMR'; payload:boolean };
+
 
 export const toggleModal = (isOpen: boolean, content?: any) => ({
     type: 'TOGGLE_MODAL',
