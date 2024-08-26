@@ -1,4 +1,4 @@
-import {initialUserState, UserState} from './redux_action';
+import {initialFoodState, initialUserState, UserState} from './redux_action';
 import {initialPostState, PostsState} from './redux_action';
 import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
@@ -121,6 +121,18 @@ export const bmrReducer = (state = initialBMRState, action: Action): BMRState =>
     case 'RESET_BMR':
       return initialBMRState;
 
+    default:
+      return state;
+  }
+};
+
+export const foodReducer = (state = initialFoodState, action: any) => {
+  switch (action.type) {
+    case 'SELECT_FOOD_TYPE':
+      return {
+        ...state,
+        selectedCategory: action.payload,
+      };
     default:
       return state;
   }

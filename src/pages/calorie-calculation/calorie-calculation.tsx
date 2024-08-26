@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import MainLayout from '../mainlayout';
+import { AppState } from '../../store/redux_store';
+import { setSelectedFoodCategory } from '../../store/redux_action';
+import "./calorie-calculation.css";
 
 type FoodItem = {
+    id: number;
     date: string;
     foodType: string;
     amount: number;
@@ -9,149 +14,164 @@ type FoodItem = {
   };
 
 const CalorieCalculation: React.FC = () => {
+    const dispatch = useDispatch();
     const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
-    const [selectedFood, setSelectedFood] = useState<string>('鶏肉');
+    const [selectedFood, setSelectedFood] = useState('');
     const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
-    const [amount, setAmount] = useState<number>(1);
+    const [amount, setAmount] = useState<number>(0);
     const [calories, setCalories] = useState<number>(0);
+    const { selectedCategory, foodData } = useSelector((state: AppState) => state.selectfoodtype);
+
+    useEffect(() => {
+        const savedCategory = localStorage.getItem('selectedCategory');
+        if (savedCategory) {
+            dispatch(setSelectedFoodCategory(savedCategory));
+        }else {
+            dispatch(setSelectedFoodCategory('')); 
+        }
+    }, [dispatch]);
   
-    const foodData = [
-      { type: '鶏肉', unit: '100g', calories: 239 },
-      { type: '卵', unit: '100g (2個)', calories: 155.1 },
-      { type: 'マグロ', unit: '100g', calories: 129.8 },
-    ];
-  
-    const handleAddToTable = () => {
-      const selectedFoodItem = foodData.find(food => food.type === selectedFood);
-      if (!selectedFoodItem) return;
-  
-      setFoodItems([
-        ...foodItems,
-        {
-          date: date,
-          foodType: selectedFood,
-          amount: amount,
-          calories: selectedFoodItem.calories * amount,
-        },
-      ]);
-    };
+    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectCategory = e.target.value;
+        dispatch(setSelectedFoodCategory(selectCategory));
+        localStorage.setItem('selectedCategory', selectCategory);
+      };
+
+      const filteredFood = foodData.filter(food => food.type === selectedCategory);
+
+      const handleAddToTable = () => {
+        const selectedFoodItem = filteredFood.find(food => food.id === parseInt(selectedFood));
+        if (!selectedFoodItem) return;
+    
+        setFoodItems([
+          ...foodItems,
+          {
+            id: Date.now(),
+            date: date,
+            foodType: selectedFoodItem.title,
+            amount: amount,
+            calories: selectedFoodItem.calorie * amount,
+          },
+        ]);
+      };
+    
+      const handledeleteToTable = (id:number) => {
+        const updatedFoodItems = foodItems.filter(item => item.id !== id);
+        setFoodItems(updatedFoodItems);
+      }
+
   return (
     <MainLayout>
     <div className="calorie-tracker-container">
-        <h2>カロリー計算</h2>
-        <div className='option-calorie'>
-          <label>種類を選ぶ</label>
-          <select 
-            value={selectedFood} 
-            onChange={e => setSelectedFood(e.target.value)}
-          >
-            {foodData.map(food => (
-              <option key={food.type} value={food.type}>{food.type}</option>
-            ))}
-          </select>
-        </div>
-        <div className='calorie-table'>
-            <table className="food-table">
+        <div className='opt-table'>
+            <h2 className='calorie-title'>摂取カロリー計算</h2>
+            <div className='option-calorie'>
+                <label className='select-kind-lit'>種類を選択
+                </label>
+                <select className='select-kind' value={selectedCategory} onChange={handleTypeChange}>
+                    {selectedCategory === '' && <option value="">選択してください</option>}
+                    <option value="meat">Meat</option>
+                    <option value="egg">Egg</option>
+                    <option value="fish">Fish</option>
+                    <option value="milk and cheese">Milk and Cheese</option>
+                    <option value="vegetable">Vegetable</option>
+                 </select>
+                 <label className='select-kind-lit2'>(栄養は100gあたりの量)
+                </label>
+            </div>
+
+            <table className="food-tables">
                 <thead>
-                    <tr>
-                        <th>Food</th>
-                                <th>Serving</th>
-                                <th>Calories</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Arrowroot</td>
-                                <td>1 piece (33 g)</td>
-                                <td>21 cal</td>
-                            </tr>
-                            <tr>
-                                <td>Artichoke</td>
-                                <td>1 piece (128 g)</td>
-                                <td>56 cal</td>
-                            </tr>
-                            <tr>
-                                <td>Asparagus</td>
-                                <td>1 piece, small (12 g)</td>
-                                <td>2 cal</td>
-                            </tr>
-                            <tr>
-                                <td>Asparagus, cooked</td>
-                                <td>1 portion (125 g)</td>
-                                <td>19 cal</td>
-                            </tr>
-                            <tr>
-                                <td>Azuki Beans</td>
-                                <td>1 portion (60 g)</td>
-                                <td>217 cal</td>
-                            </tr>
-                            <tr>
-                                <td>Baked Beans</td>
-                                <td>1 cup (253 g)</td>
-                                <td>266 cal</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <tr>
+                    <th id='table-foodname'>Food</th>
+                    <th>Calories</th>
+                    <th>Protein</th>
+                    <th>Fat</th>
+                </tr>
+                </thead>
+                <tbody>
+                {filteredFood.map(food => (
+                    <tr key={food.id}>
+                    <td>{food.title}</td>
+                    <td>{food.calorie} cal</td>
+                    <td>{food.protein} g</td>
+                    <td>{food.fat} g</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+        <div className='form-table'>
+            <div className="form-div">
+                <div className='date-div'>
+                    <label className='lavel'>日付：</label>
+                    <input 
+                        id='date'
+                        className='select-kind'
+                        type="date" 
+                        value={date} 
+                        onChange={e => setDate(e.target.value)} 
+                    />
+                </div>
+                <div className='food-name'>
+                    <label className='lavel'>食品：</label>
+                    <select 
+                        className='select-kind'
+                        value={selectedFood} 
+                        onChange={e => setSelectedFood(e.target.value)}
+                    >
+                        {<option value="">選択してください</option>}
+                        {filteredFood.map(food => (
+                        <option key={food.id} value={food.id}>{food.title}</option>
+                        
+                        ))}
+                    </select>
+                </div>
+                <div className='amount-div'>
+                    <label className='lavel'>量：</label>
+                    <input 
+                        id = "amount"
+                        className='select-kind'
+                        type="number" 
+                        value={amount == 0 ? '' : amount}
+                        onChange={e => setAmount(Number(e.target.value))}
+                    />
+                </div>
+                <div className='add-button-div'>
+                    <button className='add-button' onClick={handleAddToTable}>テーブルに追加</button>
+                </div>
+            </div>
 
-      <div className="form-section">
-        <div>
-          <label>日付</label>
-          <input 
-            type="date" 
-            value={date} 
-            onChange={e => setDate(e.target.value)} 
-          />
+            <table className="food-tables">
+                <thead>
+                <tr>
+                    <th id='date'>日付</th>
+                    <th id='food'>食品</th>
+                    <th id='amount'>量</th>
+                    <th id='calorie'>カロリー</th>
+                    <th id=''>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foodItems.map((item) => (
+                    <tr key={item.id}>
+                    <td>{item.date}</td>
+                    <td>{item.foodType}</td>
+                    <td>{item.amount}g</td>
+                    <td>{item.calories/100}cal</td>
+                    <td className='td-button'>
+                        <div className='edit'>
+                            <button className='edit-button'>編集</button>
+                        </div>
+                        <div className='delete'>
+                            <button className='delete-button' onClick={() => handledeleteToTable(item.id)}>削除</button>
+                        </div>
+                    </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
         </div>
-        <div>
-          <label>食品</label>
-          <select 
-            value={selectedFood} 
-            onChange={e => setSelectedFood(e.target.value)}
-          >
-            {foodData.map(food => (
-              <option key={food.type} value={food.type}>{food.type}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label>量</label>
-          <input 
-            type="number" 
-            value={amount} 
-            onChange={e => setAmount(Number(e.target.value))}
-          />
-        </div>
-        <button onClick={handleAddToTable}>テーブルに追加</button>
-      </div>
-
-      <table className="calorie-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>日付</th>
-            <th>食品</th>
-            <th>量</th>
-            <th>カロリー</th>
-            <th>アクション</th>
-          </tr>
-        </thead>
-        <tbody>
-          {foodItems.map((item, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{item.date}</td>
-              <td>{item.foodType}</td>
-              <td>{item.amount}</td>
-              <td>{item.calories}</td>
-              <td>
-                <button>編集</button>
-                <button>削除</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
     </MainLayout>
   );

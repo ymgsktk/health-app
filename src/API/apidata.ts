@@ -86,7 +86,7 @@ export const menus = [
     },
   ]
 
-export const material =[
+export let material =[
     {
         id: 1,
         title: "BEEF BONELESS",

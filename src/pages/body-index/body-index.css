@@ -22,7 +22,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-bottom: 30px;
 }
 
-input{
+.input-height{
     margin-top: 0px;
     background-color: hsl(0, 0%, 85%);
     padding: 10px 10px 10px 10px;

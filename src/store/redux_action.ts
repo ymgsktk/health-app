@@ -1,4 +1,5 @@
 import { Post } from '../interface/post';
+import { material } from '../API/apidata'
 
 //インターフェイス
 export interface UserState {
@@ -38,6 +39,18 @@ export interface BMRState{
   bmrcalculated: boolean;
 }
 
+export interface FoodState{
+  selectedCategory: string;
+  foodData: Array<{
+    id: number;
+    title: string;
+    calorie: number;
+    protein: number;
+    fat: number;
+    type: string;
+  }>
+}
+
 //初期状態
 export const initialPostState: PostsState = {
   posts: [],
@@ -70,10 +83,15 @@ export  const initialBMRState: BMRState = {
   height: 0,
   weight: 0,
   age: 0,
-  gender: "male",
-  level: "level1",
+  gender: "",
+  level: "",
   bmr: null,
   bmrcalculated: false,
+}
+
+export const initialFoodState: FoodState = {
+  selectedCategory: "vegetable",
+  foodData : material,
 }
 
 //アクション
@@ -92,7 +110,8 @@ export type Action =
   | { type: 'SET_GENDER-BMR'; payload: string }
   | { type: 'CALCULATE_BMI'; payload:boolean }
   | { type: 'CALCULATE_BMR'; payload:boolean }
-  | { type: 'RESET_BMR'; payload:boolean };
+  | { type: 'RESET_BMR'; payload:boolean }
+  | { type: 'SELECT_FOOD_TYPE'; payload:string };
 
 
 export const toggleModal = (isOpen: boolean, content?: any) => ({
@@ -105,3 +124,7 @@ export const toggleMenu = (menu: string) => ({
     payload: menu,
   });
   
+export const setSelectedFoodCategory = (category: string) => ({
+    type: 'SELECT_FOOD_TYPE',
+    payload: category,
+  });

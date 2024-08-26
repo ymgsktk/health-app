@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import { } from './redux_action';
-import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer} from './redux_reducer';
+import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer, foodReducer} from './redux_reducer';
 
 // rootReducerにmenuReducerを追加
 const rootReducer = combineReducers({
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   bmicalculated: bmiReducer,
   bmr: bmrReducer,
   bmrcalculated: bmrReducer,
+  selectfoodtype: foodReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

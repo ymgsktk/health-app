@@ -90,6 +90,7 @@ const BodyIndex: React.FC = () => {
             <div className='height-con'>
                 <label htmlFor="height">身長 (cm):</label>
                 <input
+                className='input-height'
                 id="height"
                 type="number"
                 value={height == 0 ? '' : height}
@@ -99,6 +100,7 @@ const BodyIndex: React.FC = () => {
             <div className='weight-con'>
                 <label htmlFor="weight">体重 (kg):</label>
                 <input
+                className='input-height'
                 id="weight"
                 type="number"
                 value={weight == 0 ? '' : weight}
