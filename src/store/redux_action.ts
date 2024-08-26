@@ -51,6 +51,16 @@ export interface FoodState{
   }>
 }
 
+export interface NutritionState{
+  id: number;
+  date: string;
+  foodType: string;
+  amount: number;
+  calories: number;
+  protein: number;
+  fat: number;
+}
+
 //初期状態
 export const initialPostState: PostsState = {
   posts: [],
@@ -94,6 +104,16 @@ export const initialFoodState: FoodState = {
   foodData : material,
 }
 
+export const initialNutritionState: NutritionState ={
+  id: 0,
+  date: '',
+  foodType: '',
+  amount: 0,
+  calories: 0,
+  protein: 0,
+  fat: 0,
+}
+
 //アクション
 export type Action =
   | { type: 'SET_USER_INFO'; payload: { email: string; password: string } }
@@ -111,7 +131,10 @@ export type Action =
   | { type: 'CALCULATE_BMI'; payload:boolean }
   | { type: 'CALCULATE_BMR'; payload:boolean }
   | { type: 'RESET_BMR'; payload:boolean }
-  | { type: 'SELECT_FOOD_TYPE'; payload:string };
+  | { type: 'SELECT_FOOD_TYPE'; payload:string }
+  | { type: 'SET_NUTRITION'; payload:NutritionState }
+  | { type: 'RESET_NUTRITION'; payload:NutritionState }
+
 
 
 export const toggleModal = (isOpen: boolean, content?: any) => ({

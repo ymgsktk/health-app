@@ -11,6 +11,8 @@ type FoodItem = {
     foodType: string;
     amount: number;
     calories: number;
+    protein: number;
+    fat: number;
   };
 
 const CalorieCalculation: React.FC = () => {
@@ -19,7 +21,9 @@ const CalorieCalculation: React.FC = () => {
     const [selectedFood, setSelectedFood] = useState('');
     const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
     const [amount, setAmount] = useState<number>(0);
-    const [calories, setCalories] = useState<number>(0);
+    const [totalsByDate, setTotalsByDate] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
+    const [nutritionSummary, setNutritionSummary] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
+
     const { selectedCategory, foodData } = useSelector((state: AppState) => state.selectfoodtype);
 
     useEffect(() => {
@@ -29,13 +33,45 @@ const CalorieCalculation: React.FC = () => {
         }else {
             dispatch(setSelectedFoodCategory('')); 
         }
+        const savedset_addtable = localStorage.getItem('caloriecalculation-addtable');
+        const savedset_setdate = localStorage.getItem('caloriecalculation-setdate');
+        const savedTotalsByDate = localStorage.getItem('totalsByDate');
+
+        if(savedset_addtable){
+            setFoodItems(JSON.parse(savedset_addtable))
+        }
+
+        if (savedTotalsByDate) {
+            setTotalsByDate(JSON.parse(savedTotalsByDate));
+        }
+        if(savedset_setdate){
+            setDate(savedset_setdate)
+        }else {
+            setDate(new Date().toISOString().slice(0, 10));
+        }
+
     }, [dispatch]);
+
+    useEffect(() => {
+        const summary: { [key: string]: { calories: number, protein: number, fat: number } } = {};
+
+        foodItems.forEach(item => {
+            if (!summary[item.date]) {
+                summary[item.date] = { calories: 0, protein: 0, fat: 0 };
+            }
+            summary[item.date].calories += item.calories;
+            summary[item.date].protein += item.protein;
+            summary[item.date].fat += item.fat;
+        });
+
+        setNutritionSummary(summary);
+    }, [foodItems]);
   
     const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectCategory = e.target.value;
         dispatch(setSelectedFoodCategory(selectCategory));
         localStorage.setItem('selectedCategory', selectCategory);
-      };
+    };
 
       const filteredFood = foodData.filter(food => food.type === selectedCategory);
 
@@ -43,22 +79,60 @@ const CalorieCalculation: React.FC = () => {
         const selectedFoodItem = filteredFood.find(food => food.id === parseInt(selectedFood));
         if (!selectedFoodItem) return;
     
-        setFoodItems([
-          ...foodItems,
-          {
+        const newItem = {
             id: Date.now(),
             date: date,
             foodType: selectedFoodItem.title,
             amount: amount,
             calories: selectedFoodItem.calorie * amount,
-          },
-        ]);
-      };
+            protein: selectedFoodItem.protein * amount,
+            fat: selectedFoodItem.fat * amount
+        };
+        setFoodItems(prevFoodItems => {
+            const updatedFoodItems = [...prevFoodItems, newItem];
+            localStorage.setItem('caloriecalculation-addtable', JSON.stringify(updatedFoodItems));
+            localStorage.setItem('caloriecalculation-setdate', date);
     
-      const handledeleteToTable = (id:number) => {
-        const updatedFoodItems = foodItems.filter(item => item.id !== id);
-        setFoodItems(updatedFoodItems);
-      }
+            const newTotalsByDate = updatedFoodItems.reduce((acc, item) => {
+                if (!acc[item.date]) {
+                    acc[item.date] = { calories: 0, protein: 0, fat: 0 };
+                }
+                acc[item.date].calories += item.calories / 100;
+                acc[item.date].protein += item.protein / 100;
+                acc[item.date].fat += item.fat / 100;
+                return acc;
+            }, {} as { [key: string]: { calories: number, protein: number, fat: number } });
+    
+            setTotalsByDate(newTotalsByDate);
+            localStorage.setItem('totalsByDate', JSON.stringify(newTotalsByDate));
+    
+            return updatedFoodItems;
+        });
+    };
+    
+
+    const handledeleteToTable = (id: number) => {
+        setFoodItems(prevFoodItems => {
+            const updatedFoodItems = prevFoodItems.filter(item => item.id !== id);
+            localStorage.setItem('caloriecalculation-addtable', JSON.stringify(updatedFoodItems));
+    
+            const newTotalsByDate = updatedFoodItems.reduce((acc, item) => {
+                if (!acc[item.date]) {
+                    acc[item.date] = { calories: 0, protein: 0, fat: 0 };
+                }
+                acc[item.date].calories += item.calories / 100;
+                acc[item.date].protein += item.protein / 100;
+                acc[item.date].fat += item.fat / 100;
+                return acc;
+            }, {} as { [key: string]: { calories: number, protein: number, fat: number } });
+    
+            setTotalsByDate(newTotalsByDate);
+            localStorage.setItem('totalsByDate', JSON.stringify(newTotalsByDate));
+    
+            return updatedFoodItems;
+        });
+    };
+    
 
   return (
     <MainLayout>
@@ -149,7 +223,9 @@ const CalorieCalculation: React.FC = () => {
                     <th id='food'>食品</th>
                     <th id='amount'>量</th>
                     <th id='calorie'>カロリー</th>
-                    <th id=''>操作</th>
+                    <th id='protein'>タンパク質</th>
+                    <th id='fat'>脂質</th>
+                    <th id='action'>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -158,7 +234,9 @@ const CalorieCalculation: React.FC = () => {
                     <td>{item.date}</td>
                     <td>{item.foodType}</td>
                     <td>{item.amount}g</td>
-                    <td>{item.calories/100}cal</td>
+                    <td>{(item.calories/100).toFixed(2)}cal</td>
+                    <td>{(item.protein/100).toFixed(2)}g</td>
+                    <td>{(item.fat/100).toFixed(2)}g</td>
                     <td className='td-button'>
                         <div className='edit'>
                             <button className='edit-button'>編集</button>
@@ -171,6 +249,32 @@ const CalorieCalculation: React.FC = () => {
                 ))}
                 </tbody>
             </table>
+            <div className="total-nutrition">
+                    <h2 className='total-nut-title'>日付ごとの栄養素合計</h2>
+                    <table className="food-tables">
+                        <thead>
+                            <tr>
+                                <th className='date'>日付</th>
+                                <th className='calorie'>カロリー</th>
+                                <th className='protein'>タンパク質</th>
+                                <th className='fat'>脂質</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.keys(totalsByDate).map(date => {
+                                const totals = totalsByDate[date] || { calories: 0, protein: 0, fat: 0 };
+                                return (
+                                    <tr key={date}>
+                                        <td>{date}</td>
+                                        <td>{totals.calories}cal</td>
+                                        <td>{totals.protein}g</td>
+                                        <td>{totals.fat}g</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
     </MainLayout>

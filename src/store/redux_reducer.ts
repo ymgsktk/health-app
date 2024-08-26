@@ -4,6 +4,7 @@ import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
 import { initialBMIState, BMIState } from './redux_action';
 import { initialBMRState, BMRState } from './redux_action';
+import { initialNutritionState, NutritionState } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -133,6 +134,28 @@ export const foodReducer = (state = initialFoodState, action: any) => {
         ...state,
         selectedCategory: action.payload,
       };
+    default:
+      return state;
+  }
+};
+
+export const nutritionReducer = (state = initialNutritionState, action: Action): NutritionState => {
+  switch (action.type) {
+    case 'SET_NUTRITION':
+      return {
+        ...state,
+        id: action.payload.id,
+        date: action.payload.date,
+        foodType: action.payload.foodType,
+        amount: action.payload.amount,
+        calories: action.payload.calories,
+        protein: action.payload.protein,
+        fat: action.payload.fat,
+      };
+
+    case 'RESET_NUTRITION':
+      return initialNutritionState;
+
     default:
       return state;
   }

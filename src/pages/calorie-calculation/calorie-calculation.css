@@ -1,7 +1,7 @@
-.calorie-tracker-container{
+/*.calorie-tracker-container{
 
 }
-
+*/
 .opt-table{
     display: flex;
     justify-content: center;
@@ -89,10 +89,10 @@
     align-items: center;
     flex-direction: row;
 }
-
+/*
 .date-div{
 
-}
+}*/
 
 #date-lavel{
     margin-right: 10px
@@ -108,14 +108,14 @@
 .form-div .lavel{
     margin-right: 10px;
 }
-
+/*
 .food-name{
 
 }
 
 .amount-div{
 
-}
+}*/
 
 #amount{
     padding: 11px;
@@ -123,10 +123,10 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
+/*
 .add-button-div{
 
-}
+}*/
 
 .add-button-div .add-button{
     margin-right: 20px;
@@ -180,11 +180,26 @@
     width: 30%;
 }
 .food-tables #amount{
-    width: 20%;
+    width: 10%;
 }
 .food-tables #calorie{
-    width: 20%;
+    width: 10%;
+}
+.food-tables #protein{
+    width: 10%;
+}
+.food-tables #fat{
+    width: 10%;
 }
 .food-tables #action{
     width: 20%;
+}
+
+.total-nutrition{
+    width: 50%
+}
+
+.total-nut-title{
+    display: flex;
+    justify-content: center;
 }
