@@ -53,8 +53,9 @@ export interface FoodState{
 
 export interface NutritionState{
   id: number;
+  foodtype: string;
   date: string;
-  foodType: string;
+  title: string;
   amount: number;
   calories: number;
   protein: number;
@@ -104,15 +105,7 @@ export const initialFoodState: FoodState = {
   foodData : material,
 }
 
-export const initialNutritionState: NutritionState ={
-  id: 0,
-  date: '',
-  foodType: '',
-  amount: 0,
-  calories: 0,
-  protein: 0,
-  fat: 0,
-}
+export const initialNutritionState: NutritionState[] = []
 
 //アクション
 export type Action =
@@ -132,8 +125,10 @@ export type Action =
   | { type: 'CALCULATE_BMR'; payload:boolean }
   | { type: 'RESET_BMR'; payload:boolean }
   | { type: 'SELECT_FOOD_TYPE'; payload:string }
-  | { type: 'SET_NUTRITION'; payload:NutritionState }
-  | { type: 'RESET_NUTRITION'; payload:NutritionState }
+  | { type: 'UPDATE_NUTRITION'; payload: NutritionState }  
+  | { type: 'ADD_NUTRITION_ITEM'; payload: NutritionState }  
+  | { type: 'REMOVE_NUTRITION' ; payload: number}
+  | { type: 'RESET_NUTRITION'}
 
 
 
@@ -151,3 +146,21 @@ export const setSelectedFoodCategory = (category: string) => ({
     type: 'SELECT_FOOD_TYPE',
     payload: category,
   });
+
+export const updateNutrition = (nutrition: NutritionState[]) => ({
+  type: 'UPDATE_NUTRITION',
+  payload: nutrition,
+});
+  
+export const addNutritionItem = (nutrition: NutritionState) => ({
+  type: 'ADD_NUTRITION_ITEM',
+  payload: nutrition,
+});
+  
+export const removeNutrition = (id: number) => ({
+  type: 'REMOVE_NUTRITION',
+  payload: id,
+});
+export const resetNutrition = () => ({
+  type: 'RESET_NUTRITION'
+});

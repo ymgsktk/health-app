@@ -1,9 +1,10 @@
-import {initialFoodState, initialUserState, UserState} from './redux_action';
+import { initialUserState, UserState} from './redux_action';
 import {initialPostState, PostsState} from './redux_action';
 import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
 import { initialBMIState, BMIState } from './redux_action';
 import { initialBMRState, BMRState } from './redux_action';
+import { initialFoodState, FoodState } from './redux_action';
 import { initialNutritionState, NutritionState } from './redux_action';
 import {Action} from './redux_action';
 
@@ -127,7 +128,7 @@ export const bmrReducer = (state = initialBMRState, action: Action): BMRState =>
   }
 };
 
-export const foodReducer = (state = initialFoodState, action: any) => {
+export const foodReducer = (state = initialFoodState, action: Action): FoodState => {
   switch (action.type) {
     case 'SELECT_FOOD_TYPE':
       return {
@@ -139,24 +140,27 @@ export const foodReducer = (state = initialFoodState, action: any) => {
   }
 };
 
-export const nutritionReducer = (state = initialNutritionState, action: Action): NutritionState => {
+
+export const nutritionReducer = (state = initialNutritionState, action: Action): NutritionState[] => {
   switch (action.type) {
-    case 'SET_NUTRITION':
-      return {
+    case 'UPDATE_NUTRITION': {
+      return state.map(item =>
+        item.id === action.payload.id ? { ...item, ...action.payload } : item
+      );
+    }
+    case 'ADD_NUTRITION_ITEM': {
+      return [
         ...state,
-        id: action.payload.id,
-        date: action.payload.date,
-        foodType: action.payload.foodType,
-        amount: action.payload.amount,
-        calories: action.payload.calories,
-        protein: action.payload.protein,
-        fat: action.payload.fat,
-      };
-
+        action.payload
+      ];
+    }
+    case 'REMOVE_NUTRITION':
+      return state.filter((item) => item.id !== action.payload);
     case 'RESET_NUTRITION':
-      return initialNutritionState;
-
+      return initialNutritionState
     default:
       return state;
+    
+    
   }
 };

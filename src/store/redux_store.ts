@@ -9,10 +9,8 @@ const rootReducer = combineReducers({
   menu: menuReducer,  
   modal: modalReducer,
   bmi: bmiReducer,
-  bmicalculated: bmiReducer,
   bmr: bmrReducer,
-  bmrcalculated: bmrReducer,
-  selectfoodtype: foodReducer,
+  food: foodReducer,
   nutrition: nutritionReducer,
 });
 
