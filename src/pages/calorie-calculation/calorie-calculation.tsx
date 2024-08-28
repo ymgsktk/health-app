@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MainLayout from '../mainlayout';
 import { AppState } from '../../store/redux_store';
-import { updateNutrition, addNutritionItem, removeNutrition, setSelectedFoodCategory} from '../../store/redux_action';
+import { NutritionState, updateNutrition, addNutritionItem, removeNutrition, setSelectedFoodCategory} from '../../store/redux_action';
 import "./calorie-calculation.css";
 import { title } from 'process';
+import {store} from '../../store/redux_store';
 
 type FoodItem = {
     id: number;
@@ -20,6 +21,8 @@ type FoodItem = {
 const CalorieCalculation: React.FC = () => {
     const dispatch = useDispatch();
     const nutritionItems = useSelector((state: AppState) => state.nutrition);
+    console.log('nutrition', nutritionItems)
+    console.log('現在のReduxの状態:', store.getState());
     const { selectedCategory, foodData } = useSelector((state: AppState) => state.food);
 
 
@@ -34,8 +37,8 @@ const CalorieCalculation: React.FC = () => {
         const savedCategory = localStorage.getItem('selectedCategory');
         if (savedCategory) {
             dispatch(setSelectedFoodCategory(savedCategory));
-        }else {
-            dispatch(setSelectedFoodCategory('')); 
+        } else {
+            dispatch(setSelectedFoodCategory(''));
         }
 
         const savedDate = localStorage.getItem('caloriecalculation-setdate');
@@ -50,24 +53,25 @@ const CalorieCalculation: React.FC = () => {
             setTotalsByDate(JSON.parse(savedTotalsByDate));
         }
 
-        dispatch({ type: 'RESET_NUTRITION' }); 
         const savedNutritionItems = localStorage.getItem('nutritionItems');
         if (savedNutritionItems) {
-            const parsedItems = JSON.parse(savedNutritionItems);
-            parsedItems.forEach((item: FoodItem) => dispatch(addNutritionItem(item)));
+            const parsedItems: NutritionState[] = JSON.parse(savedNutritionItems);
+            dispatch(updateNutrition(parsedItems)); // Update state with new data
         }
 
     }, [dispatch]);
 
+
     useEffect(() => {
+        // Save nutrition items to localStorage
         if (nutritionItems.length > 0) {
             localStorage.setItem('nutritionItems', JSON.stringify(nutritionItems));
         }
     }, [nutritionItems]);
 
     useEffect(() => {
+        // Calculate nutrition summary
         const summary: { [key: string]: { calories: number, protein: number, fat: number } } = {};
-
         nutritionItems.forEach(item => {
             if (!summary[item.date]) {
                 summary[item.date] = { calories: 0, protein: 0, fat: 0 };
@@ -79,7 +83,7 @@ const CalorieCalculation: React.FC = () => {
 
         setNutritionSummary(summary);
     }, [nutritionItems]);
-  
+
     const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectCategory = e.target.value;
         dispatch(setSelectedFoodCategory(selectCategory));
@@ -91,24 +95,24 @@ const CalorieCalculation: React.FC = () => {
     const handleAddToTable = () => {
         const selectedFoodItem = filteredFood.find(food => food.id === parseInt(selectedFood));
         if (!selectedFoodItem || amount <= 0) return;
-    
+
         const newFoodItem: FoodItem = {
-          id: Date.now(),  
-          foodtype: selectedFoodItem.type,
-          date: date,
-          title: selectedFoodItem.title,
-          amount: amount,
-          calories: (selectedFoodItem.calorie * amount) ,
-          protein: (selectedFoodItem.protein * amount) ,
-          fat: (selectedFoodItem.fat * amount) ,
+            id: Date.now(),  
+            foodtype: selectedFoodItem.type,
+            date: date,
+            title: selectedFoodItem.title,
+            amount: amount,
+            calories: (selectedFoodItem.calorie * amount),
+            protein: (selectedFoodItem.protein * amount),
+            fat: (selectedFoodItem.fat * amount),
         };
         dispatch(addNutritionItem(newFoodItem));
-      };
-    
+    };
 
     const handledeleteToTable = (id: number) => {
         dispatch(removeNutrition(id));
     };
+
     
 
   return (

@@ -50,7 +50,7 @@ export const modalReducer = (state = initialModalState, action: Action): ModalSt
   }
 };
 
-export const bmiReducer = (state = initialBMIState, action: Action): BMIState => {
+export const bmiReducer = (state= initialBMIState, action: Action): BMIState => {
   switch (action.type) {
     case 'SET_HEIGHT':
       return { ...state, height: action.payload };
@@ -141,12 +141,10 @@ export const foodReducer = (state = initialFoodState, action: Action): FoodState
 };
 
 
-export const nutritionReducer = (state = initialNutritionState, action: Action): NutritionState[] => {
+export const nutritionReducer = (state: NutritionState[] = initialNutritionState, action: Action & { payload?: any }): NutritionState[] => {
   switch (action.type) {
     case 'UPDATE_NUTRITION': {
-      return state.map(item =>
-        item.id === action.payload.id ? { ...item, ...action.payload } : item
-      );
+      return action.payload;
     }
     case 'ADD_NUTRITION_ITEM': {
       return [
@@ -157,7 +155,7 @@ export const nutritionReducer = (state = initialNutritionState, action: Action):
     case 'REMOVE_NUTRITION':
       return state.filter((item) => item.id !== action.payload);
     case 'RESET_NUTRITION':
-      return initialNutritionState
+      return []
     default:
       return state;
     

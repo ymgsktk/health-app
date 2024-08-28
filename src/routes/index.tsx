@@ -22,7 +22,6 @@ const router = createBrowserRouter(
       <Route path="/">
   
         <Route element={<Protected />}>
-          {/* All other routes that you want to protect will go inside here */}
           <Route path="/blog" element={<Blog />} />
           <Route path="/body-index" element={<BodyIndex />} />
           <Route path="/calorie-index" element={<CalorieIndex />} />

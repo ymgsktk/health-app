@@ -1,7 +1,11 @@
 export const PATH_URL ={
     signIn:"signin",
-    homePage:"",
-    chatPage:"chat"
+    calorieindex:"calorie-index",
+    caloriecalculation:"calorie-calculation",
+    blog:"blog",
+    bodyindex:"body-index",
+    dashboard:"dashboard",
+    user:"user"
 }
 
 export const USER_INFO_DUM = {

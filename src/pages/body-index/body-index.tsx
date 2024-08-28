@@ -7,6 +7,7 @@ import { fetchrecommend } from '../../API/apidata-post';
 import { Menu } from '../../interface/post';
 import { toggleModal } from '../../store/redux_action';
 import ModalComponent from './modal';
+import {store} from '../../store/redux_store';
 import './body-index.css'
 
 const BodyIndex: React.FC = () => {
@@ -16,6 +17,7 @@ const BodyIndex: React.FC = () => {
   const [recommendMenus, setRecommendMenus] = React.useState<Menu[]>([]);
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
 
+    console.log('現在のReduxの状態:', store.getState());
   useEffect(() => {
     const savedHeight = localStorage.getItem('height');
     const savedWeight = localStorage.getItem('weight');

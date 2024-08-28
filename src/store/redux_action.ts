@@ -105,7 +105,7 @@ export const initialFoodState: FoodState = {
   foodData : material,
 }
 
-export const initialNutritionState: NutritionState[] = []
+export const initialNutritionState: NutritionState[] = [];
 
 //アクション
 export type Action =

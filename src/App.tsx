@@ -11,7 +11,9 @@ const App: React.FC = () => {
     //     <Route path="/home" element={<HomePage />} /> 
     //   </Routes>
     // </Router>
+    <div>
     <AppRouter/>
+    </div>
   );
 };
 

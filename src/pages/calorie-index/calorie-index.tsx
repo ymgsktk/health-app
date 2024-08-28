@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../store/redux_store';
 import MainLayout from '../mainlayout';
 import './calorie-index.css';
+import {store} from '../../store/redux_store';
 
 const CalorieIndex: React.FC = () => {
   const dispatch = useDispatch();
+
+    console.log('現在のReduxの状態:', store.getState());
   const { height, weight, age, gender, level, bmr, bmrcalculated } = useSelector((state: AppState) => state.bmr);
   const [error, setError] = useState<string | null>(null);
+
+  
 
   useEffect(() => {
     const savedHeight = localStorage.getItem('height-bmr');
