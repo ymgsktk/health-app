@@ -7,7 +7,7 @@ import { initialBMRState, BMRState } from './redux_action';
 import { initialFoodState, FoodState } from './redux_action';
 import { initialNutritionState, NutritionState } from './redux_action';
 import { initialNutRadarChartState, SelectNutradarChart } from './redux_action';
-import { initialWeekLineChartState, WeeklineChart } from './redux_action';
+import { initialWeekLineChartState, WeeklineChart, initialSumNutritionState ,SumNutritionState } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -162,6 +162,16 @@ export const nutritionReducer = (state: NutritionState[] = initialNutritionState
       return state;
     
     
+  }
+};
+
+export const SumnutritionReducer = (state: SumNutritionState[] = initialSumNutritionState, action: Action & { payload?: any }): SumNutritionState[] => {
+  switch (action.type) {
+    case 'SUM_NUTRITION_ITEM': {
+      return action.payload;
+    }
+    default:
+      return state;
   }
 };
 

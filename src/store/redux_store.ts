@@ -1,8 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { } from './redux_action';
-import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer, foodReducer, nutritionReducer, nut_radarReducer ,date_radarReducer,week_lineReducer} from './redux_reducer';
+import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer, foodReducer, nutritionReducer, nut_radarReducer ,date_radarReducer,week_lineReducer,SumnutritionReducer} from './redux_reducer';
 
-// rootReducerにmenuReducerを追加
 const rootReducer = combineReducers({
   user: userReducer,
   posts: postsReducer,
@@ -14,6 +13,7 @@ const rootReducer = combineReducers({
   bmrcalculated: bmrReducer,
   food: foodReducer,
   nutrition: nutritionReducer,
+  sum_nut: SumnutritionReducer,
   nut_radar: nut_radarReducer,
   date_radar: date_radarReducer,
   week_line: week_lineReducer,

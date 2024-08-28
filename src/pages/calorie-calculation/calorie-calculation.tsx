@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MainLayout from '../mainlayout';
 import { AppState } from '../../store/redux_store';
-import { NutritionState, updateNutrition, addNutritionItem, removeNutrition, setSelectedFoodCategory} from '../../store/redux_action';
+import { NutritionState, updateNutrition, addNutritionItem, removeNutrition, setSelectedFoodCategory, SumNutrition} from '../../store/redux_action';
 import "./calorie-calculation.css";
 import { title } from 'process';
 import {store} from '../../store/redux_store';
+import { v4 as uuidv4 } from 'uuid';
 
 type FoodItem = {
     id: number;
@@ -18,9 +19,19 @@ type FoodItem = {
     fat: number;
   };
 
+type Summary = {
+    id: string;
+    date: string;
+    amount: number;
+    calories: number;
+    protein: number;
+    fat: number;
+}
+
 const CalorieCalculation: React.FC = () => {
     const dispatch = useDispatch();
     const nutritionItems = useSelector((state: AppState) => state.nutrition);
+    let nutritionSummaries = useSelector((state: AppState) => state.sum_nut)
     console.log('nutrition', nutritionItems)
     console.log('現在のReduxの状態:', store.getState());
     const { selectedCategory, foodData } = useSelector((state: AppState) => state.food);
@@ -29,10 +40,10 @@ const CalorieCalculation: React.FC = () => {
     const [selectedFood, setSelectedFood] = useState('');
     const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
     const [amount, setAmount] = useState<number>(0);
-    const [totalsByDate, setTotalsByDate] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
-    const [nutritionSummary, setNutritionSummary] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
+   // const [totalsByDate, setTotalsByDate] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
+   // const [nutritionSummary, setNutritionSummary] = useState<{ [key: string]: { calories: number, protein: number, fat: number } }>({});
 
-
+/*
     useEffect(() => {
         const savedCategory = localStorage.getItem('selectedCategory');
         if (savedCategory) {
@@ -48,9 +59,9 @@ const CalorieCalculation: React.FC = () => {
             setDate(new Date().toISOString().slice(0, 10));
         }
 
-        const savedTotalsByDate = localStorage.getItem('totalsByDate');
+        const savedTotalsByDate = localStorage.getItem('nutritionSummaries');
         if (savedTotalsByDate) {
-            setTotalsByDate(JSON.parse(savedTotalsByDate));
+            //setTotalsByDate(JSON.parse(savedTotalsByDate));
         }
 
         const savedNutritionItems = localStorage.getItem('nutritionItems');
@@ -61,33 +72,49 @@ const CalorieCalculation: React.FC = () => {
 
     }, [dispatch]);
 
+    useEffect(() => {
+        const storedSummaries = localStorage.getItem('nutritionSummaries');
+        if (storedSummaries) {
+          setNutritionSummary(JSON.parse(storedSummaries));
+        }
+      }, []);
 
     useEffect(() => {
-        // Save nutrition items to localStorage
         if (nutritionItems.length > 0) {
             localStorage.setItem('nutritionItems', JSON.stringify(nutritionItems));
         }
     }, [nutritionItems]);
-
+*/
     useEffect(() => {
-        // Calculate nutrition summary
-        const summary: { [key: string]: { calories: number, protein: number, fat: number } } = {};
+        const summaryMap: { [key: string]: { calories: number, protein: number, fat: number } } = {};
+
         nutritionItems.forEach(item => {
-            if (!summary[item.date]) {
-                summary[item.date] = { calories: 0, protein: 0, fat: 0 };
+            if (!summaryMap[item.date]) {
+                summaryMap[item.date] = { calories: 0, protein: 0, fat: 0 };
             }
-            summary[item.date].calories += item.calories;
-            summary[item.date].protein += item.protein;
-            summary[item.date].fat += item.fat;
+            summaryMap[item.date].calories += item.calories;
+            summaryMap[item.date].protein += item.protein;
+            summaryMap[item.date].fat += item.fat;
         });
 
-        setNutritionSummary(summary);
-    }, [nutritionItems]);
+        const summaries: Summary[] = Object.entries(summaryMap).map(([date, { calories, protein, fat }]) => ({
+            id: uuidv4(),
+            date,
+            amount: 0, 
+            calories,
+            protein,
+            fat,
+        }));
+
+        dispatch(SumNutrition(summaries));
+       // localStorage.setItem('nutritionSummaries', JSON.stringify(summaries));
+        console.log('現在のReduxの状態最新!!:', store.getState());
+    }, [nutritionItems, dispatch]);
 
     const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectCategory = e.target.value;
         dispatch(setSelectedFoodCategory(selectCategory));
-        localStorage.setItem('selectedCategory', selectCategory);
+       // localStorage.setItem('selectedCategory', selectCategory);
     };
 
     const filteredFood = foodData.filter(food => food.type === selectedCategory);
@@ -242,15 +269,15 @@ const CalorieCalculation: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Object.keys(nutritionSummary).map(date => (
-                                <tr key={date}>
-                                    <td>{date}</td>
-                                    <td>{((nutritionSummary[date].calories)/100).toFixed(1)}cal</td>
-                                    <td>{((nutritionSummary[date].protein)/100).toFixed(1)}g</td>
-                                    <td>{((nutritionSummary[date].fat)/100).toFixed(1)}g</td>
+                            {nutritionSummaries.map((item) => (
+                                <tr key={item.id}>
+                                <td>{item.date}</td>
+                                <td>{((item.calories) / 100).toFixed(1)}cal</td>
+                                <td>{((item.protein) / 100).toFixed(1)}g</td>
+                                <td>{((item.fat) / 100).toFixed(1)}g</td>
                                 </tr>
                             ))}
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
         </div>

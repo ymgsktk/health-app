@@ -62,6 +62,15 @@ export interface NutritionState{
   fat: number;
 }
 
+export interface SumNutritionState{
+  id: string;
+  date: string;
+  amount: number;
+  calories: number;
+  protein: number;
+  fat: number;
+}
+
 export interface SelectNutradarChart{
   nut_rader: string;
 }
@@ -118,6 +127,8 @@ export const initialFoodState: FoodState = {
 
 export const initialNutritionState: NutritionState[] = [];
 
+export const initialSumNutritionState: SumNutritionState[] = [];
+
 export const initialNutRadarChartState: SelectNutradarChart = {
   nut_rader: "",
 }
@@ -150,11 +161,13 @@ export type Action =
   | { type: 'SELECT_FOOD_TYPE'; payload:string }
   | { type: 'UPDATE_NUTRITION'; payload: NutritionState }  
   | { type: 'ADD_NUTRITION_ITEM'; payload: NutritionState }  
+  | { type: 'SUM_NUTRITION_ITEM' ; payload: SumNutritionState}
   | { type: 'REMOVE_NUTRITION' ; payload: number}
   | { type: 'RESET_NUTRITION'}
   | { type: 'NUT_RADAR_CHART' ; payload: string}
   | { type: 'DATE_RADAR_CHART' ; payload: string}
   | { type: 'WEEK_LINE_CHART' ; payload: string}
+  
 
 
 
@@ -177,6 +190,11 @@ export const setSelectedFoodCategory = (category: string) => ({
 export const updateNutrition = (nutrition: NutritionState[]) => ({
   type: 'UPDATE_NUTRITION',
   payload: nutrition,
+});
+
+export const SumNutrition = (Sumnutrition: SumNutritionState[]) => ({
+  type: 'SUM_NUTRITION_ITEM',
+  payload: Sumnutrition,
 });
   
 export const addNutritionItem = (nutrition: NutritionState) => ({
