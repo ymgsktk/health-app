@@ -1,4 +1,4 @@
-import { initialUserState, UserState} from './redux_action';
+import { DateradarChart, initialDateRadarChartState, initialUserState, UserState} from './redux_action';
 import {initialPostState, PostsState} from './redux_action';
 import {initialMenuState, MenuState} from './redux_action';
 import { initialModalState, ModalState } from './redux_action';
@@ -6,6 +6,8 @@ import { initialBMIState, BMIState } from './redux_action';
 import { initialBMRState, BMRState } from './redux_action';
 import { initialFoodState, FoodState } from './redux_action';
 import { initialNutritionState, NutritionState } from './redux_action';
+import { initialNutRadarChartState, SelectNutradarChart } from './redux_action';
+import { initialWeekLineChartState, WeeklineChart } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -160,5 +162,32 @@ export const nutritionReducer = (state: NutritionState[] = initialNutritionState
       return state;
     
     
+  }
+};
+
+export const nut_radarReducer = (state = initialNutRadarChartState, action: any):  SelectNutradarChart => {
+  switch (action.type) {
+    case 'NUT_RADAR_CHART':
+      return { ...state, nut_rader: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const date_radarReducer = (state = initialDateRadarChartState, action: any):  DateradarChart => {
+  switch (action.type) {
+    case 'DATE_RADAR_CHART':
+      return { ...state, date_rader: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const week_lineReducer = (state = initialWeekLineChartState, action: any):  WeeklineChart => {
+  switch (action.type) {
+    case 'DATE_RADAR_CHART':
+      return { ...state, week_line: action.payload };
+    default:
+      return state;
   }
 };

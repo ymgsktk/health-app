@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import { } from './redux_action';
-import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer, foodReducer, nutritionReducer} from './redux_reducer';
+import { postsReducer, userReducer, menuReducer, modalReducer, bmiReducer, bmrReducer, foodReducer, nutritionReducer, nut_radarReducer ,date_radarReducer,week_lineReducer} from './redux_reducer';
 
 // rootReducerにmenuReducerを追加
 const rootReducer = combineReducers({
@@ -14,6 +14,9 @@ const rootReducer = combineReducers({
   bmrcalculated: bmrReducer,
   food: foodReducer,
   nutrition: nutritionReducer,
+  nut_radar: nut_radarReducer,
+  date_radar: date_radarReducer,
+  week_line: week_lineReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

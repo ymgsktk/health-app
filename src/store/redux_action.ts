@@ -62,6 +62,17 @@ export interface NutritionState{
   fat: number;
 }
 
+export interface SelectNutradarChart{
+  nut_rader: string;
+}
+
+export interface DateradarChart{
+  date_rader: string;
+}
+export interface WeeklineChart{
+  week_line: string;
+}
+
 //初期状態
 export const initialPostState: PostsState = {
   posts: [],
@@ -107,6 +118,18 @@ export const initialFoodState: FoodState = {
 
 export const initialNutritionState: NutritionState[] = [];
 
+export const initialNutRadarChartState: SelectNutradarChart = {
+  nut_rader: "",
+}
+
+export const initialDateRadarChartState: DateradarChart = {
+  date_rader: "",
+}
+export const initialWeekLineChartState: WeeklineChart = {
+  week_line: "",
+}
+
+
 //アクション
 export type Action =
   | { type: 'SET_USER_INFO'; payload: { email: string; password: string } }
@@ -129,6 +152,10 @@ export type Action =
   | { type: 'ADD_NUTRITION_ITEM'; payload: NutritionState }  
   | { type: 'REMOVE_NUTRITION' ; payload: number}
   | { type: 'RESET_NUTRITION'}
+  | { type: 'NUT_RADAR_CHART' ; payload: string}
+  | { type: 'DATE_RADAR_CHART' ; payload: string}
+  | { type: 'WEEK_LINE_CHART' ; payload: string}
+
 
 
 
@@ -163,4 +190,19 @@ export const removeNutrition = (id: number) => ({
 });
 export const resetNutrition = () => ({
   type: 'RESET_NUTRITION'
+});
+
+export const setNutRadar = (nut: string) => ({
+  type: 'NUT_RADAR_CHART',
+  payload: nut,
+});
+
+export const setDateRadar = (date: string) => ({
+  type: 'DATE_RADAR_CHART',
+  payload: date,
+});
+
+export const setWeekLine = (week: string) => ({
+  type: 'DATE_RADAR_CHART',
+  payload: week,
 });

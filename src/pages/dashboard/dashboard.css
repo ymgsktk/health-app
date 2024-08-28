@@ -1,0 +1,51 @@
+
+.input-chart{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+   
+}
+
+.inputs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+}
+
+.input-back{
+    border-color: #3a3a3a;
+    background-color: rgb(214, 214, 214);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+.radar-chart{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+}
+
+.radarchart{
+    width:100%
+}
+
+.dash-date{
+    margin: 40px 40px 40px 40px;
+
+}
+
+.dash-nutri{
+    margin: 40px 40px 40px 40px;
+
+}
+
+.select-kind{
+    padding: 15px;
+    font-size: 15px;
+}

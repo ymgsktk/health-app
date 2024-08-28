@@ -1,0 +1,71 @@
+/*
+const extractYearMonth = (dates: string[]): { year: number; month: number } | null => {
+    if (dates.length === 0) return null;
+    const latestDate = new Date(dates[dates.length - 1]);
+    const year = latestDate.getFullYear();
+    const month = latestDate.getMonth() + 1; 
+    return { year, month };
+  };
+
+  const generateWeekOptions = (year: number, month: number): string[] => {
+    return [
+      `${year}年${month}月第1週目!`,
+      `${year}年${month}月第2週目`,
+      `${year}年${month}月第3週目`,
+      `${year}年${month}月第4週目`,
+      `${year}年${month}月第5週目`,
+    ];
+  };
+
+  const { year, month } = useMemo(() => extractYearMonth(storedDates) || { year: 2024, month: 8 }, [storedDates]);
+  const weekOptions = useMemo(() => generateWeekOptions(year, month), [year, month]);
+
+  const getWeekFromDate = (date: string): string => {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+
+    if (day <= 7) return `${year}${month}`;
+    if (day <= 14) return `${year}${month}`;
+    if (day <= 21) return `${year}${month}`;
+    if (day <= 28) return `${year}${month}`;
+    return `${year}${month}`;
+  };
+
+  useEffect(() => {
+    if (storedDates.length > 0) {
+      const latestDate = storedDates[storedDates.length - 1];
+      const correspondingWeek = getWeekFromDate(latestDate);
+
+      if (selectedWeek !== correspondingWeek) {
+        dispatch(setWeekLine(correspondingWeek));
+      }
+    }
+  }, [storedDates, dispatch, selectedWeek]);
+
+
+  <div className='input-chart'>
+                <div className='inputs'>
+                  <div className='input-back'>
+                  <div className='dash-date'>
+                    <label className='dashdate'>週間：</label>
+                    <select value={selectDate_radar.date_rader || ''} onChange={handleWeekChange}>
+                      {weekOptions.map((week, index) => (
+                        <option key={index} value={week}>{week}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='dash-nutri'>
+                    <label className='dashnutri'>栄養：</label>
+                    <select  className='select-kind' onChange={handleSelectChange} value={selectNut_radar.nut_rader}>
+                      {selectNut_radar.nut_rader === '' && <option value="">選択してください</option>}
+                      <option value="calories">calorie</option>
+                      <option value="protein">protein</option>
+                      <option value="fat">fat</option>
+                    </select>
+                  </div>
+                  </div>
+                </div>
+                <div className='radar-chart'>
+                 
+                </div>   
+              </div> */
