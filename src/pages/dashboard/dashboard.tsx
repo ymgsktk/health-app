@@ -6,6 +6,7 @@ import MainLayout from '../mainlayout';
 import './dashboard.css'
 import { setDateRadar , setNutRadar, setWeekLine} from '../../store/redux_action';
 import {store} from '../../store/redux_store';
+import Linechart from './line-chart';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -295,7 +296,7 @@ const Dashboard: React.FC = () => {
                   <Radar data={radardata} options={options} className='radarchart'/>
                 </div>   
               </div>  
-
+              <Linechart/>
                
         </div>
     </MainLayout>
