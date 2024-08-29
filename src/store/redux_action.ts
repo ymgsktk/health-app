@@ -1,5 +1,6 @@
 import { Post } from '../interface/post';
-import { material } from '../API/apidata'
+import { material } from '../API/apidata';
+import { format } from 'date-fns';
 
 //インターフェイス
 export interface UserState {
@@ -87,6 +88,14 @@ export interface DatelineChart{
   date_line: string;
 }
 
+export interface SelectNutbarChart{
+  nut_bar: string;
+}
+
+export interface DatebarChart{
+  date_bar: string;
+}
+
 
 export interface WeeklineChart{
   week_line: string;
@@ -143,16 +152,26 @@ export const initialNutRadarChartState: SelectNutradarChart = {
   nut_rader: "",
 }
 
+const currentDate = format(new Date(), "yyyy/MM/dd");
 export const initialDateRadarChartState: DateradarChart = {
-  date_rader: "",
+  date_rader: currentDate,
 }
 export const initialNutLineChartState: SelectNutlineChart = {
   nut_line: "",
 }
 
 export const initialDateLineChartState: DatelineChart = {
-  date_line: "",
+  date_line: currentDate,
 }
+
+export const initialNutBarChartState: SelectNutbarChart = {
+  nut_bar: "",
+}
+
+export const initialDateBarChartState: DatebarChart = {
+  date_bar: currentDate,
+}
+
 export const initialWeekLineChartState: WeeklineChart = {
   week_line: "",
 }
@@ -185,6 +204,8 @@ export type Action =
   | { type: 'DATE_RADAR_CHART' ; payload: string}
   | { type: 'NUT_LINE_CHART' ; payload: string}
   | { type: 'DATE_LINE_CHART' ; payload: string}
+  | { type: 'NUT_BAR_CHART' ; payload: string}
+  | { type: 'DATE_BAR_CHART' ; payload: string}
   | { type: 'WEEK_LINE_CHART' ; payload: string}
   
 
@@ -246,6 +267,16 @@ export const setNutLine = (nut: string) => ({
 
 export const setDateLine = (date: string) => ({
   type: 'DATE_LINE_CHART',
+  payload: date,
+});
+
+export const setNutBar = (nut: string) => ({
+  type: 'NUT_BAR_CHART',
+  payload: nut,
+});
+
+export const setDateBar = (date: string) => ({
+  type: 'DATE_BAR_CHART',
   payload: date,
 });
 

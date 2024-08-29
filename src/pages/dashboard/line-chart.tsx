@@ -60,6 +60,8 @@ const Linechart = () => {
   const selectDate_radar = useSelector((state: AppState) => state.date_radar);
   const selectNut_line = useSelector((state: AppState) => state.nut_line);
   const selectDate_line = useSelector((state: AppState) => state.date_line);
+
+
   //const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const getWeekRange = (date: Date): { startDate: Date; endDate: Date } => {

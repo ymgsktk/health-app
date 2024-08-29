@@ -4,6 +4,7 @@ import { AppState } from '../../store/redux_store';
 import { Radar, Line } from 'react-chartjs-2';
 import MainLayout from '../mainlayout';
 import './dashboard.css'
+import Barchart from './bar-chart';
 import { setDateRadar , setNutRadar, setWeekLine} from '../../store/redux_action';
 import {store} from '../../store/redux_store';
 import Linechart from './line-chart';
@@ -294,6 +295,9 @@ const Dashboard: React.FC = () => {
               </div>  
               <div className='line-chart'>
                   <Linechart/>
+              </div>
+              <div className='bar-chart'>
+                  <Barchart/>
               </div>
                 
         </div>
