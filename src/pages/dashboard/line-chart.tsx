@@ -24,6 +24,7 @@ import {
   TooltipItem, 
   TooltipModel 
 } from 'chart.js';
+import { date_barReducer } from "../../store/redux_reducer";
 
 ChartJS.register(
   RadialLinearScale,
@@ -60,6 +61,7 @@ const Linechart = () => {
   const selectDate_radar = useSelector((state: AppState) => state.date_radar);
   const selectNut_line = useSelector((state: AppState) => state.nut_line);
   const selectDate_line = useSelector((state: AppState) => state.date_line);
+  let filteredItems = []
 
 
   //const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -69,7 +71,7 @@ const Linechart = () => {
     const startDate = new Date(date);
     startDate.setDate(startOfWeek);
     const endDate = new Date(date);
-    endDate.setDate(startOfWeek + 6);
+    endDate.setDate(startOfWeek + 7);
     return { startDate, endDate };
   };
 
@@ -147,23 +149,23 @@ const Linechart = () => {
   useEffect(() => {
     const getFilteredItems = () => {
       if (selectDate_line) {
-
         const { startDate, endDate } = getWeekRange(new Date(selectDate_line.date_line));
+        console.log(startDate, endDate)
         return sumnutrition.filter(item => {
-          const itemDate = new Date(item.date);
+          const itemDate = new Date(item.date);         
           return itemDate >= startDate && itemDate <= endDate;
         });
       }
       return [];
     };
-    const filteredItems = getFilteredItems();
+    filteredItems = getFilteredItems();
     if(filteredItems.length > 0){
       const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const weeklyData = new Array(7).fill(0);
       filteredItems.forEach((item: any) => {
         const date = new Date(item.date);  
         const dayIndex = date.getDay();    
-        weeklyData[dayIndex] += item[selectNut_line.nut_line] / 100;  
+        weeklyData[dayIndex] += item[selectNut_line.nut_line] / 100; 
     });
       if(selectNut_line.nut_line === 'calories'){
         setLineData({

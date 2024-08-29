@@ -134,37 +134,103 @@ const Barchart = () => {
 
           const firstDayOfMonth = startOfMonth(new Date(year, month - 1)); 
           const weekday = format(firstDayOfMonth, 'EEEE');//選択された月の初日が何曜日か("Sunday"など)で出力
-          console.log("weekday",weekday)
           let vertical = Math.floor(day % 7)
           let horizontal = Math.floor(day / 7)
-          if (vertical === 0){
-            vertical = 7
-            horizontal -= 1
-          }
  
 
           switch(weekday){
             case("Sunday"):{
-              allItems[vertical-1][horizontal]= item.calories/100
-              console.log("allItems",allItems)
+              if (vertical === 0){
+                vertical = 7
+                horizontal -= 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical-1][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical-1][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical-1][horizontal]= item.fat/100
+              }
               break
             }
             case("Monday"):{
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical][horizontal]= item.fat/100
+              }
               break
             }
             case("Tuesday"):{
+              if(vertical=6){
+                vertical -= 7
+                horizontal += 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical+1][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical+1][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical+1][horizontal]= item.fat/100
+              }
               break
             }
             case("Wednesday"):{
+              if(vertical>=5){
+                vertical -= 7
+                horizontal += 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical+2][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical+2][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical+2][horizontal]= item.fat/100
+              }
               break
             }
             case("Thursday"):{
+              if(vertical>=4){
+                vertical -= 7
+                horizontal += 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical+3][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical+3][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical+3][horizontal]= item.fat/100
+              }
               break
             }
             case("Friday"):{
+              if(vertical>=3){
+                vertical -= 7
+                horizontal += 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical+4][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical+4][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical+4][horizontal]= item.fat/100
+              }
               break
             }
             case("Saturday"):{
+              if(vertical>=2){
+                vertical -= 7
+                horizontal += 1
+              }
+              if(selectNut_bar.nut_bar === 'calories'){
+                allItems[vertical+5][horizontal]= item.calories/100
+              }else if (selectNut_bar.nut_bar === 'protein'){
+                allItems[vertical+5][horizontal]= item.protein/100
+              }else if(selectNut_bar.nut_bar === 'fat'){
+                allItems[vertical+5][horizontal]= item.fat/100
+              }
               break
             }
             default:
@@ -202,7 +268,7 @@ const Barchart = () => {
 
       let allItems = [initialItems1,initialItems2,initialItems3,initialItems4,initialItems5,initialItems6,initialItems7]
 
-      /*const initialItems1 = [1,8,15,22,29]
+    /*const initialItems1 = [1,8,15,22,29]
       const initialItems2 = [2,9,16,23,30]
       const initialItems3 = [3,10,17,24,31]
       const initialItems4 = [4,11,18,25,32]
@@ -211,8 +277,8 @@ const Barchart = () => {
       const initialItems7 = [7,14,21,28,35]*/
 
       const filteredItems = getFilteredItems();
-      console.log("filter",filteredItems)
-      const matchItems = getmatchItems();
+      const matching = getmatchItems();
+      
         
       const weeklyItems: { [key: number]: any[] } = {}; 
 
@@ -224,13 +290,11 @@ const Barchart = () => {
           weeklyItems[weekOfMonth] = []; 
         }      
         weeklyItems[weekOfMonth].push(item.calories/100); 
-        console.log("weekly",weeklyItems)
 
       }
       );
 
         if(selectNut_bar.nut_bar === 'calories'){
-          const datasets = []
           /*for (let weekIndex = 0; weekIndex < initialItems.length; weekIndex++) {
             const weekData = initialItems[weekIndex];
           
@@ -247,73 +311,214 @@ const Barchart = () => {
             labels: ["1週目", "2週目", "3週目", "4週目", "5週目"],
             datasets: [
               {
-                label: 'calorie',
-                data: initialItems1.map((weekdata,index) =>{
+                label: 'Sunday',
+                data: initialItems1.map((weekdata) =>{
                   const week = weekdata
               
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(255, 0,0)',
               },
               {
-                label: 'calorie',
+                label: 'Monday',
                 data: initialItems2.map((weekdata) =>{
                   const week = weekdata
-                  console.log("aaaa",weekdata)
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(255, 187, 0)',
               },
               {
-                label: 'calorie',
-                data: initialItems3.map((weekdata,index) =>{
+                label: 'Tuesday',
+                data: initialItems3.map((weekdata) =>{
                   const week = weekdata
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(255, 0,255)',
               },
               {
-                label: 'calorie',
-                data: initialItems4.map((weekdata,index) =>{
+                label: 'Wednesday',
+                data: initialItems4.map((weekdata) =>{
                   const week = weekdata
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(0, 115,0)',
               },
               {
-                label: 'calorie',
-                data: initialItems5.map((weekdata,index) =>{
+                label: 'Thursday',
+                data: initialItems5.map((weekdata) =>{
                   const week = weekdata
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(88, 88, 88)',
               },
               {
-                label: 'calorie',
-                data: initialItems6.map((weekdata,index) =>{
+                label: 'Friday',
+                data: initialItems6.map((weekdata) =>{
                   const week = weekdata
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(131, 0, 183)',
               },
               {
-                label: 'calorie',
-                data: initialItems7.map((weekdata,index) =>{
+                label: 'Saturday',
+                data: initialItems7.map((weekdata) =>{
                   const week = weekdata
                   return week;
                 }),
                 borderColor: '',
-                backgroundColor: '',
+                backgroundColor: 'rgb(0, 0,255)',
               },
               
             ],
           });
+      }else if(selectNut_bar.nut_bar === 'protein'){
+        setBarData({
+          labels: ["1週目", "2週目", "3週目", "4週目", "5週目"],
+          datasets: [
+            {
+              label: 'Sunday',
+              data: initialItems1.map((weekdata) =>{
+                const week = weekdata
+            
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 0,0)',
+            },
+            {
+              label: 'Monday',
+              data: initialItems2.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 187, 0)',
+            },
+            {
+              label: 'Tuesday',
+              data: initialItems3.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 0,255)',
+            },
+            {
+              label: 'Wednesday',
+              data: initialItems4.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(0, 115,0)',
+            },
+            {
+              label: 'Thursday',
+              data: initialItems5.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(88, 88, 88)',
+            },
+            {
+              label: 'Friday',
+              data: initialItems6.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(131, 0, 183)',
+            },
+            {
+              label: 'Saturday',
+              data: initialItems7.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(0, 0,255)',
+            },
+            
+          ],
+        });
+      }else if(selectNut_bar.nut_bar === 'fat'){
+        setBarData({
+          labels: ["1週目", "2週目", "3週目", "4週目", "5週目"],
+          datasets: [
+            {
+              label: 'Sunday',
+              data: initialItems1.map((weekdata) =>{
+                const week = weekdata
+            
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 0,0)',
+            },
+            {
+              label: 'Monday',
+              data: initialItems2.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 187, 0)',
+            },
+            {
+              label: 'Tuesday',
+              data: initialItems3.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(255, 0,255)',
+            },
+            {
+              label: 'Wednesday',
+              data: initialItems4.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(0, 115,0)',
+            },
+            {
+              label: 'Thursday',
+              data: initialItems5.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(88, 88, 88)',
+            },
+            {
+              label: 'Friday',
+              data: initialItems6.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(131, 0, 183)',
+            },
+            {
+              label: 'Saturday',
+              data: initialItems7.map((weekdata) =>{
+                const week = weekdata
+                return week;
+              }),
+              borderColor: '',
+              backgroundColor: 'rgb(0, 0,255)',
+            },
+            
+          ],
+        });
       }else{
         setBarData({
           labels:["","","","","","",""],

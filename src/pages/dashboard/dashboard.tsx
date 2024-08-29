@@ -66,8 +66,6 @@ const Dashboard: React.FC = () => {
 
   const selectedWeek = useSelector((state: AppState) => state.week_line.week_line);
   const storedDates = useSelector((state: AppState) => state.nutrition.map(item => item.date));
-  console.log(storedDates)
-
   const [radardata, setRadarData] = useState<RadarChartData>({
     labels: [],
     datasets: [
