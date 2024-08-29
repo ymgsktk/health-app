@@ -8,6 +8,8 @@ import { initialFoodState, FoodState } from './redux_action';
 import { initialNutritionState, NutritionState } from './redux_action';
 import { initialNutRadarChartState, SelectNutradarChart } from './redux_action';
 import { initialWeekLineChartState, WeeklineChart, initialSumNutritionState ,SumNutritionState } from './redux_action';
+import { initialNutLineChartState, SelectNutlineChart } from './redux_action';
+import { initialDateLineChartState, DatelineChart } from './redux_action';
 import {Action} from './redux_action';
 
 
@@ -188,6 +190,24 @@ export const date_radarReducer = (state = initialDateRadarChartState, action: an
   switch (action.type) {
     case 'DATE_RADAR_CHART':
       return { ...state, date_rader: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const nut_lineReducer = (state = initialNutLineChartState, action: any):  SelectNutlineChart => {
+  switch (action.type) {
+    case 'NUT_LINE_CHART':
+      return { ...state, nut_line: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const date_lineReducer = (state = initialDateLineChartState, action: any):  DatelineChart => {
+  switch (action.type) {
+    case 'DATE_LINE_CHART':
+      return { ...state, date_line: action.payload };
     default:
       return state;
   }

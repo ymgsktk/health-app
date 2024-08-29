@@ -266,10 +266,6 @@ const Dashboard: React.FC = () => {
     dispatch(setDateRadar(e.target.value));
   };
 
-  const handleWeekChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setWeekLine(e.target.value));
-  };
-
   return (
     <MainLayout>
         <div className='all-content'>
@@ -296,8 +292,10 @@ const Dashboard: React.FC = () => {
                   <Radar data={radardata} options={options} className='radarchart'/>
                 </div>   
               </div>  
-              <Linechart/>
-               
+              <div className='line-chart'>
+                  <Linechart/>
+              </div>
+                
         </div>
     </MainLayout>
   );

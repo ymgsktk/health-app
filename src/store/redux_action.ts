@@ -78,6 +78,16 @@ export interface SelectNutradarChart{
 export interface DateradarChart{
   date_rader: string;
 }
+
+export interface SelectNutlineChart{
+  nut_line: string;
+}
+
+export interface DatelineChart{
+  date_line: string;
+}
+
+
 export interface WeeklineChart{
   week_line: string;
 }
@@ -136,6 +146,13 @@ export const initialNutRadarChartState: SelectNutradarChart = {
 export const initialDateRadarChartState: DateradarChart = {
   date_rader: "",
 }
+export const initialNutLineChartState: SelectNutlineChart = {
+  nut_line: "",
+}
+
+export const initialDateLineChartState: DatelineChart = {
+  date_line: "",
+}
 export const initialWeekLineChartState: WeeklineChart = {
   week_line: "",
 }
@@ -166,6 +183,8 @@ export type Action =
   | { type: 'RESET_NUTRITION'}
   | { type: 'NUT_RADAR_CHART' ; payload: string}
   | { type: 'DATE_RADAR_CHART' ; payload: string}
+  | { type: 'NUT_LINE_CHART' ; payload: string}
+  | { type: 'DATE_LINE_CHART' ; payload: string}
   | { type: 'WEEK_LINE_CHART' ; payload: string}
   
 
@@ -217,6 +236,16 @@ export const setNutRadar = (nut: string) => ({
 
 export const setDateRadar = (date: string) => ({
   type: 'DATE_RADAR_CHART',
+  payload: date,
+});
+
+export const setNutLine = (nut: string) => ({
+  type: 'NUT_LINE_CHART',
+  payload: nut,
+});
+
+export const setDateLine = (date: string) => ({
+  type: 'DATE_LINE_CHART',
   payload: date,
 });
 
