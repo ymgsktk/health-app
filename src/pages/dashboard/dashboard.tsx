@@ -221,9 +221,9 @@ const Dashboard: React.FC = () => {
         },
         title: {
           display: true,
-          text: 'Radar-Chart',
+          text: '項目ごとの栄養摂取量',
           font: {
-            size: 24, 
+            size: 15, 
           },
         },
         tooltip: {
@@ -269,6 +269,7 @@ const Dashboard: React.FC = () => {
     <MainLayout>
         <div className='all-content'>
         <h1 className='title'>ダッシュボード</h1>
+        <div className='all-back'>
               <div className='input-chart'>
                 <div className='inputs'>
                   <div className='input-back'>
@@ -297,7 +298,7 @@ const Dashboard: React.FC = () => {
               <div className='bar-chart'>
                   <Barchart/>
               </div>
-                
+            </div>
         </div>
     </MainLayout>
   );

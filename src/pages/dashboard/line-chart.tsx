@@ -112,7 +112,7 @@ const Linechart = () => {
       },
       title: {
         display: true,
-        text: '',
+        text: '週間ごとの栄養摂取量',
         font: {
           size: 24,
         },
@@ -248,7 +248,7 @@ const Linechart = () => {
         },
         title: {
           display: true,
-          text: 'Radar-Chart',
+          text: '週間ごとの栄養摂取量',
           font: {
             size: 24, 
           },

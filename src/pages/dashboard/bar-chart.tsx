@@ -76,8 +76,12 @@ const Barchart = () => {
         },
         title: {
             display: true,
-            text: 'カロリー摂取量の統計',
+            text: '栄養摂取量の統計',
+            font: {
+              size: 15, 
+            },
         },
+        
         },
         scales: {
         x: {
@@ -595,26 +599,34 @@ const Barchart = () => {
         }
       };*/
     return (
-    <div>
-        <DatePicker
-        selected={new Date(selectDate_bar.date_bar)}
-        onChange={handleMonthChange}
-        dateFormat="yyyy/MM/dd"
-        showMonthYearPicker
-        showFullMonthYearPicker
-        placeholderText="Select a month"
-        />
-        <div className='dash-nutri'>
-              <label className='dashnutri'>栄養：</label>
-              <select  className='select-kind' onChange={handleSelectChange} value={selectNut_bar.nut_bar}>
-                {selectNut_bar.nut_bar === '' && <option value="">選択してください</option>}
-                <option value="calories">calorie</option>
-                <option value="protein">protein</option>
-                <option value="fat">fat</option>
-              </select>
-          </div> 
-        <div>
-            <Bar data={barData} options={options}/>
+      <div className="input-chart">
+        <div className="inputs">
+          <div className='input-back'>
+            <div className='dash-date'>
+              <label className='dashdate'>月：</label>
+                <DatePicker
+                selected={new Date(selectDate_bar.date_bar)}
+                onChange={handleMonthChange}
+                dateFormat="yyyy/MM/dd"
+                className="select-kind"
+                showMonthYearPicker
+                showFullMonthYearPicker
+                placeholderText="Select a month"
+                />
+                </div>
+              <div className='dash-nutri'>
+                  <label className='dashnutri'>栄養：</label>
+                  <select  className='select-kind' onChange={handleSelectChange} value={selectNut_bar.nut_bar}>
+                    {selectNut_bar.nut_bar === '' && <option value="">選択してください</option>}
+                    <option value="calories">calorie</option>
+                    <option value="protein">protein</option>
+                    <option value="fat">fat</option>
+                  </select>
+              </div> 
+              </div>
+              </div>
+        <div className='radar-chart'>
+            <Bar data={barData} options={options} className="radarchart"/>
         </div>
     </div>
     );
