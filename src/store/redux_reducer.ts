@@ -28,7 +28,7 @@ export const postsReducer = (state = initialPostState, action: Action): PostsSta
 export const userReducer = (state = initialUserState, action: Action): UserState => {
   switch (action.type) {
     case 'SET_USER_INFO':
-      return { ...state, email: action.payload.email, password: action.payload.password };
+      return { ...state, username: action.payload.username, password: action.payload.password };
     case 'SET_TOKEN':
       return { ...state, token: action.payload };
     default:

@@ -3,12 +3,12 @@ import MockAdapter from 'axios-mock-adapter';
 import { USER_INFO ,posts, menus} from './apidata';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'http://localhost:3001/',
 });
 
 const mock = new MockAdapter(api);
 
-
+/*
 mock.onPost('/user1').reply((config) => {
   const { email, password } = JSON.parse(config.data);
   if (email === USER_INFO.email && password === USER_INFO.password) {
@@ -29,7 +29,7 @@ export const login = async (email: string, password: string) => {
     throw new Error('login Failed');
   }
 };
-
+*/
 
 mock.onGet('/posts').reply(200, posts);
 
@@ -69,4 +69,3 @@ mock.onPost('/recommend').reply((config) => {
     throw new Error('Cannot find recommend menus');
   }
 });
-

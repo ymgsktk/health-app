@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 
 //インターフェイス
 export interface UserState {
-  email: string;
+  username: string;
   password: string;
   token: string | null;
 }
@@ -107,7 +107,7 @@ export const initialPostState: PostsState = {
 };
 
 export const initialUserState: UserState = {
-  email: '',
+  username: '',
   password: '',
   token: null,
 };
@@ -179,7 +179,7 @@ export const initialWeekLineChartState: WeeklineChart = {
 
 //アクション
 export type Action =
-  | { type: 'SET_USER_INFO'; payload: { email: string; password: string } }
+  | { type: 'SET_USER_INFO'; payload: { username: string; password: string } }
   | { type: 'SET_TOKEN'; payload: string }
   | { type: 'SET_POSTS'; payload: Post[] }
   | { type: 'TOGGLE_MENU'; payload: keyof MenuState }
